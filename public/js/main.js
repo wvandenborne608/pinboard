@@ -15,6 +15,9 @@ function initialize(displayType, defaultLat, defaultlong, defaultZoom, defaultCa
           defaultlong: this.defaultlong,
           defaultZoom: this.defaultZoom,
           defaultCanvas: this.defaultCanvas,
+          beforeSend: function(){
+            $( "body" ).addClass("loading");
+          },
           success: function(dataInput) {
             arDataInput = CSVToArray(dataInput);
             $(document).ready(function() {
@@ -45,6 +48,7 @@ function initialize(displayType, defaultLat, defaultlong, defaultZoom, defaultCa
                       showMarkerClusterMap(this.arDataInput, arDataCache, defaultLat, defaultlong, defaultZoom, defaultCanvas);
                       break;
                   }
+                  $( "body" ).removeClass("loading");
                 }
              });
            });
@@ -54,7 +58,7 @@ function initialize(displayType, defaultLat, defaultlong, defaultZoom, defaultCa
 }
 
 function CSVToArray( strData, strDelimiter ){
-  strDelimiter = (strDelimiter || ",");
+  strDelimiter = (strDelimiter || ";");
   var objPattern = new RegExp(
     (
       "(\\" + strDelimiter + "|\\r?\\n|\\r|^)" +
@@ -95,10 +99,9 @@ function fetchCoordinates(i, arDataInput, arDataCache) {
     if ((arDataCache[j][0] == arDataInput[i][0])
     && (arDataCache[j][1] == arDataInput[i][1])
     && (arDataCache[j][2] == arDataInput[i][2])
-    && (arDataCache[j][3] == arDataInput[i][3])
-    && (arDataCache[j][4] == arDataInput[i][4])) {
-      arCoordinates[0]=arDataCache[j][5];
-      arCoordinates[1]=arDataCache[j][6];
+    && (arDataCache[j][3] == arDataInput[i][3])) {
+      arCoordinates[0]=arDataCache[j][4];
+      arCoordinates[1]=arDataCache[j][5];
       return arCoordinates;
     }
   }
@@ -182,7 +185,7 @@ function showMarkerClusterMap(arDataInput, arDataCache, defaultLat, defaultlong,
 
 function showMarkerMap(arDataInput, arDataCache, defaultLat, defaultlong, defaultZoom, defaultCanvas) {
   var center = new google.maps.LatLng(defaultLat, defaultlong);
-  var image = 'https://storage.googleapis.com/support-kms-prod/SNP_2752063_en_v0';
+  var image = 'img/measle_orange.png';
   var map = new google.maps.Map(document.getElementById(defaultCanvas), {
       zoom: defaultZoom,
       center: center,
@@ -202,8 +205,4 @@ function showMarkerMap(arDataInput, arDataCache, defaultLat, defaultlong, defaul
   	markers.push(marker);
   }
 }
-
-
-
-
 
