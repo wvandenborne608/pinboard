@@ -60,12 +60,14 @@
     sleep(1); //to not upset google?
     $address  = urlencode( $valueInputItem[ $GLOBALS['constDataHeaders']['street'] ] );
     if ($valueInputItem[ $GLOBALS['constDataHeaders']['street'] ]!="NULL") $address .= ",+" . urlencode( $valueInputItem[ $GLOBALS['constDataHeaders']['street'] ] );
+    if ($valueInputItem[ $GLOBALS['constDataHeaders']['number'] ]!="NULL") $address .= "+" . urlencode( $valueInputItem[ $GLOBALS['constDataHeaders']['street'] ] );
     if ($valueInputItem[ $GLOBALS['constDataHeaders']['zip'] ]!="NULL") $address .= ",+" . urlencode( $valueInputItem[ $GLOBALS['constDataHeaders']['zip'] ] );
     if ($valueInputItem[ $GLOBALS['constDataHeaders']['city'] ]!="NULL") $address .= ",+" . urlencode( $valueInputItem[ $GLOBALS['constDataHeaders']['city'] ] );
     if ($valueInputItem[ $GLOBALS['constDataHeaders']['state'] ]!="NULL") $address .= ",+" . urlencode( $valueInputItem[ $GLOBALS['constDataHeaders']['state'] ] );
     if ($valueInputItem[ $GLOBALS['constDataHeaders']['country'] ]!="NULL") $address .= ",+" . urlencode( $valueInputItem[ $GLOBALS['constDataHeaders']['country'] ] );
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, 'https://maps.googleapis.com/maps/api/geocode/json?address=' . $address . '&components=country:' . urlencode( $valueInputItem[ $GLOBALS['constDataHeaders']['country_code'] ])  . '&sensor=false');
+    $url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' . $address . '&sensor=false';
+    curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
@@ -109,7 +111,6 @@
         $arCoordinates = fetch_coordinates($valueInput);
         if ($arCoordinates==false) break; //something happened. Stop the loop. Work is done for today...
         $arDataCache_additions[] = createDataCacheItem($valueInput, $arCoordinates);
-        $count++;
       }
     }
     return $arDataCache_additions;

@@ -35,9 +35,6 @@ function initialize(displayType, defaultLat, defaultlong, defaultZoom, defaultCa
                 success: function(dataCache) {
                   arDataCache = CSVToArray(dataCache);
                   switch (this.displayType) {
-                    case "heatmap2":
-                      showHeatMap2(this.arDataInput, arDataCache, defaultLat, defaultlong, defaultZoom, defaultCanvas);
-                      break;
                     case "heatmap":
                       showHeatMap(this.arDataInput, arDataCache, defaultLat, defaultlong, defaultZoom, defaultCanvas);
                       break;
@@ -96,12 +93,9 @@ function fetchCoordinates(i, arDataInput, arDataCache) {
   var dataInputLength = arDataInput.length;
   var dataCacheLength = arDataCache.length;
   for (var j = 0; j < dataCacheLength; j++) {
-    if ((arDataCache[j][0] == arDataInput[i][0])
-    && (arDataCache[j][1] == arDataInput[i][1])
-    && (arDataCache[j][2] == arDataInput[i][2])
-    && (arDataCache[j][3] == arDataInput[i][3])) {
-      arCoordinates[0]=arDataCache[j][4];
-      arCoordinates[1]=arDataCache[j][5];
+    if (arDataCache[j][0] == arDataInput[i][0]) {
+      arCoordinates[0]=arDataCache[j][1];
+      arCoordinates[1]=arDataCache[j][2];
       return arCoordinates;
     }
   }
@@ -109,7 +103,7 @@ function fetchCoordinates(i, arDataInput, arDataCache) {
 }
 
 
-function showHeatMap2(arDataInput, arDataCache, defaultLat, defaultlong, defaultZoom, defaultCanvas) {
+function showHeatMap(arDataInput, arDataCache, defaultLat, defaultlong, defaultZoom, defaultCanvas) {
   var map, pointarray, heatmap;
   var dataInputLength = arDataInput.length;
   var mapData={
@@ -127,7 +121,7 @@ function showHeatMap2(arDataInput, arDataCache, defaultLat, defaultlong, default
   };
   map = new google.maps.Map(document.getElementById(defaultCanvas), mapOptions);
   var heatmap = new HeatmapOverlay(map, {
-      "radius":30,
+      "radius":25,
       "visible":true, 
       "opacity":100,
       "gradient": { 0.45: "rgb(0,0,255)", 0.55: "rgb(0,255,255)", 0.65: "rgb(0,255,0)", 0.95: "yellow", 1.0: "rgb(255,0,0)" }
@@ -137,27 +131,6 @@ function showHeatMap2(arDataInput, arDataCache, defaultLat, defaultlong, default
   });
 }
 
-
-function showHeatMap(arDataInput, arDataCache, defaultLat, defaultlong, defaultZoom, defaultCanvas) {
-  var map, pointarray, heatmap;
-  var dataInputLength = arDataInput.length;
-  var mapData = [];
-  for (var i = 0; i < dataInputLength; i++) {
-  	var arCoordinates = fetchCoordinates(i, arDataInput, arDataCache);
-  	mapData.push( new google.maps.LatLng(arCoordinates[0],arCoordinates[1]) );
-  }
-  var mapOptions = {
-    zoom: defaultZoom,
-    center: new google.maps.LatLng(defaultLat, defaultlong),
-    mapTypeId: google.maps.MapTypeId.SATELLITE
-  };
-  map = new google.maps.Map(document.getElementById(defaultCanvas), mapOptions);
-  var pointArray = new google.maps.MVCArray(mapData);
-  heatmap = new google.maps.visualization.HeatmapLayer({
-    data: pointArray
-  });
-  heatmap.setMap(map);
-}
 
 
 function showMarkerClusterMap(arDataInput, arDataCache, defaultLat, defaultlong, defaultZoom, defaultCanvas) {
