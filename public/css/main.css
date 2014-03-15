@@ -8,16 +8,8 @@ html, body {
   margin: 0px;
   padding: 0px
   display: inline-block;
-  width:49.9%;
+  width:100%%;
   float:right;
-}
-#map-canvas-us {
-  height: 100%;
-  margin: 0px;
-  padding: 0px
-  display: inline-block;
-  width:49.9%;
-  float:left;
 }
 #panel1 {
   position: absolute;
@@ -42,14 +34,10 @@ html, body {
               50% 50% 
               no-repeat;
 }
-/* When the body has the loading class, we turn
-   the scrollbar off with overflow:hidden */
 body.loading {
     overflow: hidden;   
 }
 
-/* Anytime the body has the loading class, our
-   modal element will be visible */
 body.loading #spinner {
     display: block;
 }

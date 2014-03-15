@@ -34,6 +34,7 @@ function initialize(displayType, defaultLat, defaultlong, defaultZoom, defaultCa
                 defaultCanvas: defaultCanvas,
                 success: function(dataCache) {
                   arDataCache = CSVToArray(dataCache);
+
                   switch (this.displayType) {
                     case "heatmap":
                       showHeatMap(this.arDataInput, arDataCache, defaultLat, defaultlong, defaultZoom, defaultCanvas);
@@ -167,8 +168,8 @@ function showMarkerMap(arDataInput, arDataCache, defaultLat, defaultlong, defaul
   var markers = [];
   var dataInputLength = arDataInput.length;
   var mapData = [];
-  for (var i = 0; i < dataInputLength; i++) {
-  	var arCoordinates = fetchCoordinates(i, arDataInput, arDataCache);
+  for (var i = 0; i < dataInputLength; i++) { 
+    var arCoordinates = fetchCoordinates(i, arDataInput, arDataCache);
     var latLng = new google.maps.LatLng(arCoordinates[0],arCoordinates[1]);
     var marker = new google.maps.Marker({
          position: latLng,

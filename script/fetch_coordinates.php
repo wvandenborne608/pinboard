@@ -6,7 +6,7 @@
   $arDataInput = [];
   $arDataCache = [];
 
-  $GLOBALS['constDataHeaders']['brin']        =0;
+  $GLOBALS['constDataHeaders']['uid']         =0;
   $GLOBALS['constDataHeaders']['street']      =1;
   $GLOBALS['constDataHeaders']['number']      =2;
   $GLOBALS['constDataHeaders']['zip']         =3;
@@ -48,7 +48,7 @@
   # Check if the input exists in cache.
   function check_if_input_exists_in_cache($arInputItem, $arDataCache) {
     foreach ($arDataCache as $keyCache => $valueCache) {
-      if ($valueCache[ $GLOBALS['constDataHeaders']['brin'] ]  == $arInputItem[ $GLOBALS['constDataHeaders']['brin'] ] ) 
+      if ($valueCache[ $GLOBALS['constDataHeaders']['uid'] ]  == $arInputItem[ $GLOBALS['constDataHeaders']['uid'] ] ) 
       	  return true;
     }    
     return false;
@@ -91,7 +91,7 @@
   # Crate a new dataCache item array. (Same as a inputDataItem but with geocoordinates, but without the count)
   function createDataCacheItem($valueIntput,$arCoordinates) {
     return array (
-    $GLOBALS['constDataHeaders']['brin']    => $valueIntput[ $GLOBALS['constDataHeaders']['brin'] ],
+    $GLOBALS['constDataHeaders']['uid']    => $valueIntput[ $GLOBALS['constDataHeaders']['uid'] ],
     $GLOBALS['constDataHeaders']['lat']     => $arCoordinates['lat'],
     $GLOBALS['constDataHeaders']['lng']     => $arCoordinates['lng'] );
   }
@@ -102,7 +102,7 @@
     $arDataCache_additions = null;
     $arCoordinates = [];
     foreach ($arDataInput as $keyInput => $valueInput) {
-      echo "**Processing: " . $valueInput[ $GLOBALS['constDataHeaders']['brin'] ];
+      echo "**Processing: " . $valueInput[ $GLOBALS['constDataHeaders']['uid'] ];
       if (check_if_input_exists_in_cache($valueInput, $arDataCache)) {
         echo "[Cached]\n";
       } else {
